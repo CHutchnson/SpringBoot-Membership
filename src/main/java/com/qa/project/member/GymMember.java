@@ -11,7 +11,10 @@ import javax.persistence.GenerationType;
 @Entity
 public class GymMember {
 	
-	@Id
+	//variables that each GymMember will have 
+	
+	//This is a strategy to automatically generate id
+	@Id 
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
 	
@@ -30,6 +33,8 @@ public class GymMember {
 	@Column
 	private String email;
 
+	//getters and setters 
+	
 	public long getId() {
 		return id;
 	}
@@ -78,6 +83,7 @@ public class GymMember {
 		this.email = email;
 	}
 
+	//string representation of the GymMember 
 	@Override
 	public String toString() {
 		return "GymMember [id=" + id + ", accountNumber=" + accountNumber + ", firstName=" + firstName + ", lastName="
