@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.qa.project.member.*;
 import com.qa.project.service.MemberService;
@@ -57,7 +58,7 @@ public class MemberController {
 	 
 	 //request is sent to the server to delete the data
 	 @DeleteMapping("/delete/{id}") 
-	 public GymMember deleteMember(@PathVariable int id) {
+	 public boolean deleteMember(@PathVariable long id) {
 		//deletes via unique id 
 		 return this.service.removeMember(id);
 		 //returns the deleted member from list
