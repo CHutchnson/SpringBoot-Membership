@@ -5,8 +5,6 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.websocket.server.PathParam;
-
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -41,18 +39,30 @@ public class MemberController {
 	        // generate an array of memberships in the body of the HTTP response.
 	    }	//right now our membership list is empty 
 	 
-	 //request is sent to the server to update the data 
-	 @PutMapping("/update")
-	    public GymMember updateMember(@PathParam ("id")int id, @RequestBody GymMember member) {
+	 //maps request to get a member by their ID and read the data
+	 @GetMapping("/readByID/{id}")
+	 public GymMember readById(@PathVariable long id) {
+		 return this.service.readById(id);
+		 //generate the specific members ID 
+	 }
+	 //maps request to get members by their age
+	 @GetMapping("/getByAge/{age}")
+	 public List<GymMember> readByAge(@PathVariable int age){
+		 return this.service.getByAge(age);
+	 }//example generate all members aged 18 
+	 
+	 //request is sent to the server to update the data of a specific member
+	 @PutMapping("/update/{id}")
+	    public GymMember updateMember(@PathVariable ("id")int id, @RequestBody GymMember member) {
 	        return this.service.updateMember(id, member);
 	        /*Updating the members list (adding and removing members)
 	        *with less lines of code by calling on the service class 
 	        *with the this.service.createdmethod that was made
 	        */
 	        
-	        /*note for self explaining path parameter
-	        PathParam is a parameter annotation which allows you to map query 
-	        parameters in the request to parameters in the method.*/
+	        /*note for self explaining path variable
+	         * can be used to handle template variables in the request URI mapping
+	         */
 	    }
 	 
 	 //request is sent to the server to delete the data

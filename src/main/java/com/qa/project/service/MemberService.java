@@ -1,9 +1,10 @@
 package com.qa.project.service;
 
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+
+import javax.persistence.EntityNotFoundException;
 
 import com.qa.project.member.GymMember;
 import com.qa.project.member.MemberRepository;
@@ -18,7 +19,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class MemberService {
 	
-	private List<GymMember> members = new ArrayList<>(); //empty members list
+	//private List<GymMember> members = new ArrayList<>(); //empty members list
 	
 	private MemberRepository repo;
 	//Adding repo dependency to our service 
@@ -36,6 +37,20 @@ public class MemberService {
 	public List<GymMember> getAllMembers(){
 		//get method returns the entire list of members 
 		return this.repo.findAll();
+	}
+	
+	public GymMember readById(long id) {
+		GymMember found = repo.findById(id).orElseThrow(EntityNotFoundException::new);
+		return found;
+		/* note to self
+		 * if the id is present it will return the member 
+		 * custom exception instance otherwise it will throw a not found exception
+		 */
+	}
+	
+	public List<GymMember> getByAge(int age) {
+		return this.repo.findByAge(age);
+	
 	}
 	
 	public GymMember updateMember(long id, GymMember newMember) {

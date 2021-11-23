@@ -1,19 +1,12 @@
 package com.qa.project.member;
 
 import javax.persistence.GenerationType;
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-
-import com.fasterxml.jackson.annotation.JsonFormat;
-
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 
 @Entity
 public class GymMember {
@@ -21,8 +14,7 @@ public class GymMember {
 	//variables that each GymMember will have 
 	
 	//This is a strategy to automatically generate an id primary key
-	@Id 
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
 	
 	@Column(unique = true, nullable = false) //must be unique can't be empty
@@ -35,19 +27,22 @@ public class GymMember {
 	private String lastName;
 	
 	@Column
-	private LocalDate DOB;
+	private int age;
 	
 	@Column
 	private String email;
 	
-	//constructor with fields
-	public GymMember(long id, String accountNumber, String firstName, String lastName, LocalDate DOB, String email) {
+	public GymMember() {
+		super();
+	}
+	
+	public GymMember(long id, String accountNumber, String firstName, String lastName, int age, String email) {
 		super();
 		this.id = id;
 		this.accountNumber = accountNumber;
 		this.firstName = firstName;
 		this.lastName = lastName;
-		this.DOB = DOB;
+		this.age = age;
 		this.email = email;
 	}
 
@@ -85,12 +80,12 @@ public class GymMember {
 		this.lastName = lastName;
 	}
 
-	public LocalDate getDOB() {
-		return DOB;
+	public int getage() {
+		return age;
 	}
 
-	public void setDOB(LocalDate dOB) {
-		DOB = dOB;
+	public void setage(int age) {
+		this.age = age;
 	}
 
 	public String getEmail() {
@@ -111,7 +106,7 @@ public class GymMember {
 		if (getClass() != obj.getClass())
 			return false;
 		GymMember other = (GymMember) obj;
-		return Objects.equals(DOB, other.DOB) && Objects.equals(accountNumber, other.accountNumber)
+		return Objects.equals(age, other.age) && Objects.equals(accountNumber, other.accountNumber)
 				&& Objects.equals(email, other.email) && Objects.equals(firstName, other.firstName) && id == other.id
 				&& Objects.equals(lastName, other.lastName);
 	}
@@ -120,7 +115,7 @@ public class GymMember {
 	@Override
 	public String toString() {
 		return "GymMember [id=" + id + ", accountNumber=" + accountNumber + ", firstName=" + firstName + ", lastName="
-				+ lastName + ", DOB=" + DOB + ", email=" + email + "]";
+				+ lastName + ", age=" + age + ", email=" + email + "]";
 	}
 
 	
