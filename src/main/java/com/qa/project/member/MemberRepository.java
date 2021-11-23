@@ -14,4 +14,5 @@ public interface MemberRepository extends JpaRepository<GymMember, Long> {
 	//Custom Query method that allows us to find members by their last name
 	Optional<GymMember> findByLastName(String lastName);
 	
+	
 }
