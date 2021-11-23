@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.qa.project.member.*;
 import com.qa.project.service.MemberService;
@@ -31,20 +30,20 @@ public class MemberController {
 	
 	//data is sent to the server from the user to create a membership 
 	 @PostMapping("/create")
-	    public GymMember addMember(@RequestBody GymMember member) {
+	    public MemberDTO addMember(@RequestBody GymMember member) {
 	        return this.service.addMember(member);
 	    } //add the newly created member to the membership list and return it
 	
 	//maps request to the get all members method to get/read the data 
 	 @GetMapping("/getAll")
-	    public List<GymMember> getAllMembers() {
+	    public List<MemberDTO> getAllMembers() {
 			return this.service.getAllMembers();
 	        // generate an array of memberships in the body of the HTTP response.
 	    }	//right now our membership list is empty 
 	 
 	 //request is sent to the server to update the data 
 	 @PutMapping("/update")
-	    public GymMember updateMember(@PathParam ("id")int id, @RequestBody GymMember member) {
+	    public MemberDTO updateMember(@PathParam ("id")int id, @RequestBody GymMember member) {
 	        return this.service.updateMember(id, member);
 	        /*Updating the members list (adding and removing members)
 	        *with less lines of code by calling on the service class 
@@ -70,5 +69,10 @@ public class MemberController {
 		 */
 		 
 	 }
+	 
+	  @GetMapping("/test")
+	    public String test() {
+	        return "Im still working!";
+	    }
 	 
 }

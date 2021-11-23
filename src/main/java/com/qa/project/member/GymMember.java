@@ -35,6 +35,17 @@ public class GymMember {
 	@Column
 	private String email;
 
+	//constructor with fields
+	public GymMember(long id, String accountNumber, String firstName, String lastName, LocalDate DOB, String email) {
+		super();
+		this.id = id;
+		this.accountNumber = accountNumber;
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.DOB = DOB;
+		this.email = email;
+	}
+
 	//getters and setters 
 	
 	public long getId() {
