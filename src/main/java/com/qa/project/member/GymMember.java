@@ -2,11 +2,16 @@ package com.qa.project.member;
 
 import javax.persistence.GenerationType;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 
@@ -34,6 +39,17 @@ public class GymMember {
 	
 	@Column
 	private String email;
+	
+	//constructor with fields
+	public GymMember(long id, String accountNumber, String firstName, String lastName, LocalDate DOB, String email) {
+		super();
+		this.id = id;
+		this.accountNumber = accountNumber;
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.DOB = DOB;
+		this.email = email;
+	}
 
 	//getters and setters 
 	

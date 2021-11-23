@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.qa.project.member.*;
 import com.qa.project.service.MemberService;
@@ -70,5 +69,10 @@ public class MemberController {
 		 */
 		 
 	 }
+	 
+	  @GetMapping("/test")
+	    public String test() {
+	        return "Im still working!";
+	    }
 	 
 }
