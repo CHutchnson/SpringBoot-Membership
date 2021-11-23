@@ -12,44 +12,35 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-
 import com.qa.project.member.*;
-import com.qa.project.service.MemberService;
 
 @RestController
-public class MemberController {
-	
-	private MemberService service; //imported from our service class
-	
-	public MemberController(MemberService service) {
-		this.service = service; //service method
-	}
+public class Controller {
 	
 	List<GymMember> members = new ArrayList<>(); //empty array list of members
 	
 	//data is sent to the server from the user to create a membership 
 	 @PostMapping("/create")
-	    public GymMember addMember(@RequestBody GymMember member) {
-	        return this.service.addMember(member);
+	    public boolean addMember(GymMember member) {
+	        return this.members.add(member);
 	    } //add the newly created member to the membership list and return it
 	
 	//maps request to the get all members method to get/read the data 
 	 @GetMapping("/getAll")
 	    public List<GymMember> getAllMembers() {
-			return this.service.getAllMembers();
+			return members;
 	        // generate an array of memberships in the body of the HTTP response.
 	    }	//right now our membership list is empty 
 	 
 	 //request is sent to the server to update the data 
 	 @PutMapping("/update")
-	    public GymMember updateMember(@PathParam ("id")int id, @RequestBody GymMember member) {
-	        return this.service.updateMember(id, member);
-	        /*Updating the members list (adding and removing members)
-	        *with less lines of code by calling on the service class 
-	        *with the this.service.createdmethod that was made
-	        */
+	    public GymMember updateMember(@PathParam ("id")int id, GymMember member) {
+	        // Remove existing member with matching 'id'
+	        this.members.remove(id);
+	        // Add new member in its place
+	        this.members.add(id, member);
+	        // Return updated member from list
+	        return this.members.get(id);
 	        
 	        /*note for self explaining path parameter
 	        PathParam is a parameter annotation which allows you to map query 
@@ -58,9 +49,9 @@ public class MemberController {
 	 
 	 //request is sent to the server to delete the data
 	 @DeleteMapping("/delete/{id}") 
-	 public boolean deleteMember(@PathVariable long id) {
+	 public GymMember deleteMember(@PathVariable int id) {
 		//deletes via unique id 
-		 return this.service.removeMember(id);
+		 return this.members.remove(id);
 		 //returns the deleted member from list
 		 
 		 /*note for self explaining path variable
