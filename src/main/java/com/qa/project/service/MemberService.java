@@ -9,6 +9,7 @@ import javax.persistence.EntityNotFoundException;
 import com.qa.project.member.GymMember;
 import com.qa.project.member.MemberRepository;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 
@@ -18,11 +19,11 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class MemberService {
-	
-	//private List<GymMember> members = new ArrayList<>(); //empty members list
-	
+
 	private MemberRepository repo;
 	//Adding repo dependency to our service 
+	
+	@Autowired
     public MemberService(MemberRepository repo) {
         super();
         this.repo = repo;
@@ -31,7 +32,6 @@ public class MemberService {
 	public GymMember addMember(GymMember member) {
 		//use save method to right entry into repo and read it back out
 		return this.repo.save(member);
-		//same thing as before with less lines
 	}
 	
 	public List<GymMember> getAllMembers(){
@@ -44,14 +44,30 @@ public class MemberService {
 		return found;
 		/* note to self
 		 * if the id is present it will return the member 
-		 * custom exception instance otherwise it will throw a not found exception
+		 * custom exception instance if wrong id it will throw a not found exception
 		 */
 	}
 	
 	public List<GymMember> getByAge(int age) {
 		return this.repo.findByAge(age);
-	
+		//using the custom method
 	}
+	
+	public List<GymMember> getByFirstName(String firstName) {
+		return this.repo.findByFirstName(firstName);
+		//using the custom method
+	}
+	
+	public List<GymMember> getByLastName(String lastName) {
+		return this.repo.findByLastName(lastName);
+		//using the custom method
+	}
+	
+	public List<GymMember> getByEmail(String email) {
+		return this.repo.findByEmail(email);
+		//using the custom method
+	}
+	
 	
 	public GymMember updateMember(long id, GymMember newMember) {
 		//fetch member from database using findById method
@@ -60,6 +76,8 @@ public class MemberService {
         //update the member with new data
         existing.setEmail(newMember.getEmail());
         existing.setFirstName(newMember.getFirstName());
+        existing.setLastName(newMember.getLastName());
+        existing.setAge(newMember.getAge());;
         //save the member back to the database 
 		return this.repo.save(existing);
 	}

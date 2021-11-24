@@ -11,7 +11,10 @@ CRUD functionality.*/
 @Repository
 public interface MemberRepository extends JpaRepository<GymMember, Long> {
 	
-	//Custom Query method that allows us to find members by their last name
+	//Custom Query method that allows us to find members by other variables
 	public List<GymMember> findByAge(int age);
+	public List<GymMember> findByFirstName(String firstName);
+	public List<GymMember> findByLastName(String lastName);
+	public List<GymMember> findByEmail(String email);
 	
 }
