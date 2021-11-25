@@ -2,7 +2,6 @@ package com.qa.project.service;
 
 
 import java.util.List;
-import java.util.Optional;
 
 import javax.persistence.EntityNotFoundException;
 
@@ -30,8 +29,9 @@ public class MemberService {
     }
 	
 	public GymMember addMember(GymMember member) {
-		//use save method to right entry into repo and read it back out
-		return this.repo.save(member);
+		//use save member to repo and read member back out
+		this.repo.save(member);
+		return (member);
 	}
 	
 	public List<GymMember> getAllMembers(){
@@ -39,9 +39,8 @@ public class MemberService {
 		return this.repo.findAll();
 	}
 	
-	public GymMember readById(long id) {
-		GymMember found = repo.findById(id).orElseThrow(EntityNotFoundException::new);
-		return found;
+	public GymMember getById(long id) {
+		return repo.findById(id).orElseThrow(EntityNotFoundException::new);
 		/* note to self
 		 * if the id is present it will return the member 
 		 * custom exception instance if wrong id it will throw a not found exception
@@ -69,26 +68,20 @@ public class MemberService {
 	}
 	
 	
-	public GymMember updateMember(long id, GymMember newMember) {
-		//fetch member from database using findById method
-        Optional<GymMember> existingOptional = this.repo.findById(id);
-        GymMember existing = existingOptional.get();
-        //update the member with new data
-        existing.setEmail(newMember.getEmail());
-        existing.setFirstName(newMember.getFirstName());
-        existing.setLastName(newMember.getLastName());
-        existing.setAge(newMember.getAge());;
-        //save the member back to the database 
-		return this.repo.save(existing);
+	public boolean updateMember(long id, GymMember newMember) {
+		if(removeMember(id)) {
+			newMember.setId(id);
+			addMember(newMember);
+			return repo.existsById(id);
+		}
+		return false;
 	}
 	
 	public boolean removeMember(Long id) {
         // Remove the member via id 
         this.repo.deleteById(id);
         //check if the members been remove
-        boolean exists = this.repo.existsById(id);
-        //returns true if the member does not exist
-		return !exists;
+        return !repo.existsById(id);
     }
 	
 }

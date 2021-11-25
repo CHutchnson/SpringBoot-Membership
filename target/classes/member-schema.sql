@@ -1,0 +1,8 @@
+CREATE TABLE IF NOT EXISTS GymMember (
+id INT PRIMARY KEY AUTO_INCREMENT,
+accountNumber VARCHAR(5) NOT NULL, 
+firstName VARCHAR(50), 
+lastName VARCHAR(50), 
+age INT NOT NULL,
+email VARCHAR(100)
+);
