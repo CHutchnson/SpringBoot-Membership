@@ -31,3 +31,6 @@ Possible improvement for future revisions of the project.
 Custom Queries
 Use of DTO
 Custom Exceptions
+
+Jira Board
+https://ch97.atlassian.net/jira/software/projects/PROJ/boards/3/reports/burnup
