@@ -55,7 +55,7 @@ public class MemberController {
 	 @PutMapping("/update/{id}")
 	    public ResponseEntity<GymMember> updateMember(@PathVariable ("id")long id, @RequestBody GymMember member) {
 		
-			 return new ResponseEntity<>(service.getById(id), HttpStatus.ACCEPTED);
+			 return new ResponseEntity<>(service.updateMember(id, member), HttpStatus.ACCEPTED);
 		 }
 	        
 	        //Updating the members list (adding and removing members)
@@ -66,7 +66,7 @@ public class MemberController {
 	 @DeleteMapping("/delete/{id}") 
 	 public ResponseEntity<String> deleteMember(@PathVariable long id) {
 		//deletes via unique id 
-		 return new ResponseEntity<>("Employee Deleted", HttpStatus.GONE);
+		 return new ResponseEntity<>("Member Deleted", HttpStatus.GONE);
 		 //returns the deleted member from list
 	 }
 		 /*note for self explaining path variable

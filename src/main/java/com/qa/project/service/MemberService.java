@@ -2,6 +2,7 @@ package com.qa.project.service;
 
 
 import java.util.List;
+import java.util.Optional;
 
 import javax.persistence.EntityNotFoundException;
 
@@ -48,13 +49,16 @@ public class MemberService {
 	}
 	
 	
-	public boolean updateMember(long id, GymMember newMember) {
-		if(removeMember(id)) {
-			newMember.setId(id);
-			addMember(newMember);
-			return repo.existsById(id);
-		}
-		return false;
+	public GymMember updateMember(long id, GymMember newMember) {
+		 Optional<GymMember> existingOptional = this.repo.findById(id);
+	        GymMember existing = existingOptional.get();
+	        //update the member with new data
+	        existing.setEmail(newMember.getEmail());
+	        existing.setFirstName(newMember.getFirstName());
+	        existing.setLastName(newMember.getLastName());
+	        existing.setAge(newMember.getAge());;
+	        //save the member back to the database 
+			return this.repo.save(existing);
 	}
 	
 	public boolean removeMember(Long id) {
