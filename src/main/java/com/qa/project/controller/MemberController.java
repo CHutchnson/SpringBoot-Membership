@@ -66,6 +66,7 @@ public class MemberController {
 	 @DeleteMapping("/delete/{id}") 
 	 public ResponseEntity<String> deleteMember(@PathVariable long id) {
 		//deletes via unique id 
+		 this.service.removeMember(id);
 		 return new ResponseEntity<>("Member Deleted", HttpStatus.GONE);
 		 //returns the deleted member from list
 	 }
