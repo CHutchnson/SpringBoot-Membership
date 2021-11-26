@@ -47,26 +47,6 @@ public class MemberService {
 		 */
 	}
 	
-	public List<GymMember> getByAge(int age) {
-		return this.repo.findByAge(age);
-		//using the custom method
-	}
-	
-	public List<GymMember> getByFirstName(String firstName) {
-		return this.repo.findByFirstName(firstName);
-		//using the custom method
-	}
-	
-	public List<GymMember> getByLastName(String lastName) {
-		return this.repo.findByLastName(lastName);
-		//using the custom method
-	}
-	
-	public List<GymMember> getByEmail(String email) {
-		return this.repo.findByEmail(email);
-		//using the custom method
-	}
-	
 	
 	public boolean updateMember(long id, GymMember newMember) {
 		if(removeMember(id)) {

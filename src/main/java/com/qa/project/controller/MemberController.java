@@ -40,44 +40,26 @@ public class MemberController {
 	//maps request to the get all members method to get/read the data 
 	 @GetMapping("/getAll")
 	    public ResponseEntity<List<GymMember>> getAllMembers() {
-			return new ResponseEntity<>(this.service.getAllMembers(), HttpStatus.FOUND);
+			return new ResponseEntity<>(this.service.getAllMembers(), HttpStatus.OK);
 	        // generate an array of all members in the body of the HTTP response.
 	    }
 	 
 	 //maps request to get a member by their ID and read the data
 	 @GetMapping("/getByID/{id}")
 	 public ResponseEntity<GymMember> readById(@PathVariable long id) {
-		 return new ResponseEntity<> (this.service.getById(id), HttpStatus.FOUND); 
+		 return new ResponseEntity<> (this.service.getById(id), HttpStatus.OK); 
 	 }
-	 @GetMapping("/getByAge/{age}")
-	 public ResponseEntity<List<GymMember>> readByAge(@PathVariable int age){
-		 return new ResponseEntity<>(this.service.getByAge(age), HttpStatus.FOUND);
-	 }//example generate all members aged 18 
-	 
-	 @GetMapping("/getByFirstName/{firstName}")
-	 public ResponseEntity<List<GymMember>> readByFirstName(@PathVariable String firstName){
-		 return new ResponseEntity<>(this.service.getByFirstName(firstName), HttpStatus.FOUND);
-	 }//example generate all members with the first name Roy
-	 
-	 @GetMapping("/getByLastName/{lastName}")
-	 public ResponseEntity<List<GymMember>> readByLastName(@PathVariable String lastName){
-		 return new ResponseEntity<>(this.service.getByLastName(lastName), HttpStatus.FOUND);
-	 }//example generate all members with the last name James
 
-	 @GetMapping("/getByEmail/{email}")
-	 public ResponseEntity<List<GymMember>> readByEmail(@PathVariable String email){
-		 return new ResponseEntity<>(this.service.getByEmail(email), HttpStatus.FOUND);
-	 }
 	 
 	 //request is sent to the server to update the data of a specific member
 	 @PutMapping("/update/{id}")
 	    public ResponseEntity<GymMember> updateMember(@PathVariable ("id")long id, @RequestBody GymMember member) {
-		 if (service.updateMember(id, member)) {
+		
 			 return new ResponseEntity<>(service.getById(id), HttpStatus.ACCEPTED);
 		 }
-	        return new ResponseEntity<>(null, HttpStatus.NOT_MODIFIED);
+	        
 	        //Updating the members list (adding and removing members)
-	 }
+	 
 	    
 	 
 	 //request is sent to the server to delete the data
@@ -92,11 +74,5 @@ public class MemberController {
 		 If the value in {} matches the parameter name then the value will be inserted
 		 automatically, otherwise, the parameter can be specified.
 		 */ 
-	 
-	 
-	  @GetMapping("/test")
-	    public String test() {
-	        return "Im still working!";
-	    }
 	 
 }
