@@ -59,14 +59,16 @@ public class MembersServiceTest {
 	    
     @Test
     void testUpdate() {
-    	GymMember testMem = new GymMember(1, null, null, null, 0, null);
-    	when(repo.existsById((long) 1)).thenReturn(false, true);
-    	assertThat(service.updateMember((long )1, testMem)).isEqualTo(true);
-    	
-    	testMem.setId(1);
-    	verify(repo, times(1)).deleteById((long) 1);
-    	verify(repo, times(2)).existsById((long) 1);
-    	verify(repo, times(1)).save(testMem);	
+    	GymMember testMem = new GymMember(1, "100", "Leo", "James", 20, "LeoJames@mail.com");
+    	System.out.println("Before: " + testMem);
+    	Optional<GymMember> option = Optional.of(testMem); //should be saved to the repo
+    	when(repo.findById((long) 1)).thenReturn(option); //find existing member by ID )
+    	when(service.updateMember(1, testMem)).thenReturn(testMem); //when we call the update method return test member
+    	assertThat(service.updateMember((long )1, testMem)).isEqualTo(testMem); //see if it returns said member
+    	testMem.setAge(21);; //update the test members age 
+    	assertThat(service.updateMember((long )1, testMem)).isEqualTo(testMem); //see if it returns same member with new age
+    	verify(repo, times(2)).save(testMem); //should be saved to the repo again with updated changes
+    	System.out.println("After: " + testMem);
     }
     
 }

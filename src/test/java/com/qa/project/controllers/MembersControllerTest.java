@@ -13,15 +13,22 @@ import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilde
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.jdbc.Sql.ExecutionPhase;
 
+import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+import java.util.Optional;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import com.qa.project.member.GymMember;
+import com.qa.project.member.MemberRepository;
+import com.qa.project.service.MemberService;
 
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 @AutoConfigureMockMvc
@@ -33,8 +40,14 @@ public class MembersControllerTest {
 	@Autowired
 	private MockMvc mock;
 	
+	@MockBean
+    private MemberRepository repo;
+	
 	 @Autowired
 	 private ObjectMapper jsonifier; //converts objects into json strings
+	 
+	 @Autowired
+	    private MemberService service;
 	 
 	 private GymMember TEST_SAVED_PERSON = new GymMember(1, "001", "Roy", "Jones", 19, "RoyJones@Gmail.com");
 
@@ -55,6 +68,9 @@ public class MembersControllerTest {
 	 
 		@Test
 		public void testGetByID() throws Exception {
+			
+			Optional<GymMember> option = Optional.of(TEST_SAVED_PERSON);
+			given(repo.findById((long) 1)).willReturn(option);
 			MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders.request(HttpMethod.GET, "/getByID/1");
 		 	mockRequest.contentType(MediaType.APPLICATION_JSON);
 		 	mockRequest.content(this.jsonifier.writeValueAsString(TEST_SAVED_PERSON));
@@ -72,31 +88,29 @@ public class MembersControllerTest {
 			 	mockRequest.contentType(MediaType.APPLICATION_JSON);
 			 	mockRequest.content(this.jsonifier.writeValueAsString(TEST_SAVED_PERSON));
 			 	mockRequest.accept(MediaType.APPLICATION_JSON);
-			 	
 			 	ResultMatcher matchStatus = MockMvcResultMatchers.status().isOk();
-			 	ResultMatcher matchContent = MockMvcResultMatchers.content().json(this.jsonifier.writeValueAsString(TEST_SAVED_PERSON));
-			 	
-			 	this.mock.perform(mockRequest).andExpect(matchStatus).andExpect(matchContent);	
+			 	this.mock.perform(mockRequest).andExpect(matchStatus);
 		}
 
 		 @Test
 		 public void testUpdate() throws Exception {
-		 GymMember TEST_SAVED_PERSON = new GymMember(1, "001", "Troy", "Jones", 19, "TroyJones@Gmail.com");
-			 
-			 
-		 MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders.request(HttpMethod.PUT, "/update/1");
-		 	mockRequest.contentType(MediaType.APPLICATION_JSON);
-		 	mockRequest.content(this.jsonifier.writeValueAsString(TEST_SAVED_PERSON));
-		 	mockRequest.accept(MediaType.APPLICATION_JSON);
-		 	
-		 	ResultMatcher matchStatus = MockMvcResultMatchers.status().isAccepted();
-		 	ResultMatcher matchContent = MockMvcResultMatchers.content().json(this.jsonifier.writeValueAsString(TEST_SAVED_PERSON));
-		 	
-		 	mock.perform(mockRequest).andExpect(matchStatus).andExpect(matchContent);
+			 Optional<GymMember> option = Optional.of(TEST_SAVED_PERSON);
+			 given(repo.findById((long) 1)).willReturn(option);
+			 given(service.updateMember(1, TEST_SAVED_PERSON)).willReturn(TEST_SAVED_PERSON);
+			 MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders.request(HttpMethod.PUT, "/update/1");
+			 	mockRequest.contentType(MediaType.APPLICATION_JSON);
+			 	TEST_SAVED_PERSON.setAge(23);
+			 	mockRequest.content(this.jsonifier.writeValueAsString(TEST_SAVED_PERSON));
+			 	mockRequest.accept(MediaType.APPLICATION_JSON);
+			 	
+			 	ResultMatcher matchStatus = MockMvcResultMatchers.status().isAccepted();
+			 	
+			 	this.mock.perform(mockRequest).andExpect(matchStatus);
  }
+		 
 	@Test
 	 public void testDelete() throws Exception {
-				mock.perform(delete("/delete/2")).andExpect(status().isGone());
+				mock.perform(delete("/delete/1")).andExpect(status().isGone());
 			}
 	 
 }
