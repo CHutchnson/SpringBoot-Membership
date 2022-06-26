@@ -29,7 +29,7 @@ public class MembersServiceTest {
 	    void testCreate() {
 	    	GymMember testMem = new GymMember();
 	    	assertThat(service.addMember(testMem)).isEqualTo(testMem);
-	    	verify(repo, times(1)).save(testMem);
+	    	verify(repo, times(1)).saveAndFlush(testMem);
 	    }
 	    
 	    @Test

@@ -1,9 +1,11 @@
-DROP TABLE IF EXISTS GymMember;
-CREATE TABLE IF NOT EXISTS GymMember (
-id INT PRIMARY KEY AUTO_INCREMENT,
-accountNumber VARCHAR(5) NOT NULL, 
-firstName VARCHAR(50), 
-lastName VARCHAR(50), 
-age INT NOT NULL,
-email VARCHAR(100)
-);
+DROP TABLE IF EXISTS gym_member CASCADE;
+
+CREATE TABLE gym_member (
+	id INT AUTO_INCREMENT,
+	account_number VARCHAR(5) UNIQUE NOT NULL, 
+	first_name VARCHAR(50) NOT NULL, 
+	last_name VARCHAR(50) NOT NULL, 
+	age INT NOT NULL,
+	email VARCHAR(100) NOT NULL,
+	PRIMARY KEY (id)
+	);

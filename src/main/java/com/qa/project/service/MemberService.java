@@ -31,7 +31,7 @@ public class MemberService {
 	
 	public GymMember addMember(GymMember member) {
 		//use save member to repo and read member back out
-		this.repo.save(member);
+		this.repo.saveAndFlush(member);
 		return (member);
 	}
 	
@@ -54,8 +54,8 @@ public class MemberService {
 	        GymMember existing = existingOptional.get();
 	        //update the member with new data
 	        existing.setEmail(newMember.getEmail());
-	        existing.setFirstName(newMember.getFirstName());
-	        existing.setLastName(newMember.getLastName());
+	        existing.setFirst_name(newMember.getFirst_name());
+	        existing.setLast_name(newMember.getLast_name());
 	        existing.setAge(newMember.getAge());;
 	        //save the member back to the database 
 			return this.repo.save(existing);

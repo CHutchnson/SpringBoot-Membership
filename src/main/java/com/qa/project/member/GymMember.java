@@ -22,18 +22,27 @@ public class GymMember {
 	private long id;
 	
 	@Column(unique = true, nullable = false) 
-	private String accountNumber;
+	private String account_number;
 	
 	@Column
-	private String firstName;
+	private String first_name;
 
 	@Column
-	private String lastName;
+	private String last_name;
 	
 	@Column  
 	private int age;
 	
 	@Column
 	private String email;
+	
+	public GymMember(String account_number, String first_name, String last_name, int age, String email) {
+		super();
+		this.account_number = account_number;
+		this.first_name = first_name;
+		this.last_name = last_name;
+		this.age = age;
+		this.email = email;
+	}
 	
 }
